@@ -34,6 +34,15 @@ const adminSchema = new mongoose.Schema({
   password: String,
 });
 
+const pantrySchema = new mongoose.Schema({
+  name: String,
+  contact: String,
+  location: String,
+  isAssigned: Boolean,
+  assignedMeal: String,
+});
+
 const Patient = mongoose.model("Patient", patientSchema);
 const Admin = mongoose.model("Admin", adminSchema);
-module.exports = { Patient, Admin };
+const Pantry = mongoose.model("Pantry", pantrySchema);
+module.exports = { Patient, Admin, Pantry };
