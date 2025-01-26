@@ -4,19 +4,24 @@ const secret = process.env.JWT_SECRET;
 
 async function adminMiddleware(req, res, next) {
   const jsonToken = req.headers.authorization;
-
-  const word = jsonToken.split(" ");
-
-  const token = word[1];
-  const decodedOutput = jwt.verify(token, secret);
   try {
-    if (decodedOutput.username) {
-      req.username = decodedOutput.username;
-      next();
+    const word = jsonToken.split(" ");
+
+    const token = word[1];
+    const decodedOutput = jwt.verify(token, secret);
+    try {
+      if (decodedOutput.username) {
+        req.username = decodedOutput.username;
+        next();
+      }
+    } catch (e) {
+      res.status(401).json({
+        msg: "invalid token",
+      });
     }
   } catch (e) {
-    res.statue(401).json({
-      msg: "invalid token",
+    res.status(403).json({
+      err: "Not authenticated",
     });
   }
 }
